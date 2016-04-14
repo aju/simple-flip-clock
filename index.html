@@ -26,7 +26,7 @@
 
 <button id="trigger">Trigger</button>
 <script>
-  var sfc = new SimpleFlipClock(document.querySelector('.sfc-number'), 0);
+  var sfc = new SimpleFlipClock({element: document.querySelector('.sfc-number'), currentNumber: 0});
   document.getElementById('trigger').addEventListener('click', function () {
     sfc.decrement();
   })

@@ -1,5 +1,5 @@
 class SimpleFlipClock {
-  constructor(element, currentNumber, maxNumber = 9, minNumber = 0) {
+  constructor({element, currentNumber, maxNumber = 9, minNumber = 0}) {
     this.element = element;
     this.currentNumber = currentNumber;
     this.maxNumber = maxNumber;
