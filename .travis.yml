@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+  - "4.1"
+
+before_install:
+  - gem install scss_lint --no-rdoc --no-ri
+
+script:
+  - npm test
+
+notifications:
+  email: false

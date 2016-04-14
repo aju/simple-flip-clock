@@ -1,154 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Simple flip clock</title>
+  <meta charset="UTF-8">
+  <title>Simple flip clock</title>
+  <link href="dist/css/default.css" rel="stylesheet" media="screen"/>
+  <script src="dist/js/main.min.js"></script>
 </head>
 <body>
-<style>
-    .sfc-number {
-        width: 60px;
-        height: 90px;
-        position: relative;
-        perspective: 200px;
-        font-family: Arial;
-    }
-    .sfc-number__up,
-    .sfc-number__down {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 50%;
-    }
-    .sfc-number__down {
-        bottom: 0;
-    }
-    .sfc-number__up-element,
-    .sfc-number__down-element {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-    }
-    .sfc-number__up-element {
-        transform-origin: bottom center;
-        background: #6f85ff;
-    }
-    .sfc-number__down-element {
-        transform-origin: top center;
-        background: #8B9EFD;
-        transform: rotateX(90deg);
-    }
-    .sfc-number__up-element--active,
-    .sfc-number__down-element--active {
-        z-index: 2;
-    }
-    .sfc-number__down-element--active {
-        transition: transform 0.3s 0.3s ease-out;
-        transform: rotateX(0deg);
-    }
-    .sfc-number__up-element--before {
-        transition: transform 0.3s ease-in;
-        transform: rotateX(-90deg);
-        z-index: 3;
-    }
-    .sfc-number__down-element--before {
-        transform: rotateX(0);
-        z-index: 1;
-    }
-    .sfc-digit-container {
-        overflow: hidden;
-        width: 100%;
-        height: 100%
-    }
-    .sfc-digit-full {
-        color: white;
-        font-size: 60px;
-        line-height: 90px;
-        display: block;
-        height: 200%;
-        width: 100%;
-        text-align: center;
-    }
-    .sfc-digit-full--bottom {
-        transform: translateY(-50%);
-    }
-</style>
 <div class="sfc-number">
-    <ol class="sfc-number__up">
-        <li class="sfc-number__up-element sfc-number__up-element--active">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full">0</div>
-            </div>
-        </li>
-        <li class="sfc-number__up-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full">1</div>
-            </div>
-        </li>
-        <li class="sfc-number__up-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full">2</div>
-            </div>
-        </li>
-        <li class="sfc-number__up-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full">3</div>
-            </div>
-        </li>
-    </ol>
-    <ol class="sfc-number__down">
-        <li class="sfc-number__down-element sfc-number__down-element--active">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full sfc-digit-full--bottom">0</div>
-            </div>
-        </li>
-        <li class="sfc-number__down-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full sfc-digit-full--bottom">1</div>
-            </div>
-        </li>
-        <li class="sfc-number__down-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full sfc-digit-full--bottom">2</div>
-            </div>
-        </li>
-        <li class="sfc-number__down-element">
-            <div class="sfc-digit-container">
-                <div class="sfc-digit-full sfc-digit-full--bottom">3</div>
-            </div>
-        </li>
-    </ol>
+  <ol class="sfc-number__up">
+    <li class="sfc-number__element sfc-number__element--active">
+      <div class="sfc-number__digit">
+        <div class="sfc-number__digit-full">0</div>
+      </div>
+    </li>
+  </ol>
+  <ol class="sfc-number__down">
+    <li class="sfc-number__element sfc-number__element--active">
+      <div class="sfc-number__digit">
+        <div class="sfc-number__digit-full">0</div>
+      </div>
+    </li>
+  </ol>
 </div>
 
 <button id="trigger">Trigger</button>
 <script>
-    var currentActive = 0;
-    var previousActive = null;
-    document.getElementById('trigger').addEventListener('click', function() {
-        var upParts = document.querySelectorAll('.sfc-number__up-element');
-        var downParts = document.querySelectorAll('.sfc-number__down-element');
-
-        if(previousActive !== null) {
-            upParts[previousActive].classList.remove('sfc-number__up-element--before');
-            downParts[previousActive].classList.remove('sfc-number__down-element--before');
-        }
-        upParts[currentActive].classList.remove('sfc-number__up-element--active');
-        downParts[currentActive].classList.remove('sfc-number__down-element--active');
-        upParts[currentActive].classList.add('sfc-number__up-element--before');
-        downParts[currentActive].classList.add('sfc-number__down-element--before');
-
-        previousActive = currentActive;
-        currentActive += 1;
-        if(currentActive >= upParts.length) {
-            currentActive = 0;
-        }
-        upParts[currentActive].classList.add('sfc-number__up-element--active');
-        downParts[currentActive].classList.add('sfc-number__down-element--active');
-    })
+  var sfc = new SimpleFlipClock(document.querySelector('.sfc-number'), 0);
+  document.getElementById('trigger').addEventListener('click', function () {
+    sfc.decrement();
+  })
 </script>
 </body>
 </html>

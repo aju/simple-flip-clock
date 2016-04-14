@@ -1,0 +1,88 @@
+$sfcFontFamily: Arial !default;
+$sfcFontColor: #ffffff;
+$sfcFontSize: 60px;
+$sfcNumberBoxHeight: 90px !default;
+$sfcNumberBoxWidth: 60px !default;
+$sfcUpHalfBackground: #6f85ff !default;
+$sfcDownHalfBackground: #8b9efd !default;
+
+.sfc-number {
+  font-family: $sfcFontFamily;
+  width: $sfcNumberBoxWidth;
+  height: $sfcNumberBoxHeight;
+  position: relative;
+  perspective: 200px;
+
+  &__up,
+  &__down {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+  }
+
+  &__down {
+    bottom: 0;
+  }
+
+  &__element {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    &--active {
+      z-index: 2;
+    }
+  }
+
+  &__up &__element {
+    transform-origin: bottom center;
+    background: $sfcUpHalfBackground;
+
+    &--before {
+      transition: transform 0.3s ease-in;
+      transform: rotateX(-90deg);
+      z-index: 3;
+    }
+  }
+
+  &__down &__element {
+    transform-origin: top center;
+    background: $sfcDownHalfBackground;
+    transform: rotateX(90deg);
+
+    &--active {
+      transition: transform 0.3s 0.3s ease-out;
+      transform: rotateX(0deg);
+    }
+
+    &--before {
+      transform: rotateX(0);
+      z-index: 1;
+    }
+  }
+
+  &__digit {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__digit-full {
+    color: $sfcFontColor;
+    font-size: $sfcFontSize;
+    line-height: $sfcNumberBoxHeight;
+    display: block;
+    height: 200%;
+    width: 100%;
+    text-align: center;
+
+    .sfc-number__down & {
+      margin-top: -($sfcNumberBoxHeight / 2);
+    }
+  }
+}
