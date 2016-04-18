@@ -1,13 +1,16 @@
-# UI components
-[![Build Status](https://travis-ci.org/brainly/ui-components.svg?branch=master)](https://travis-ci.org/brainly/ui-components)
+# UI effects
 
-Handy library of animated UI components
+Library with UI effects
 
-## List of things
+## Components
 
 ![Simple flip clock](https://i.gyazo.com/8925a6b8f2d4d82ee9b4307a25e48017.gif)
 
 [Simple flip clock](components/simple-flip-clock/README.md)
+
+![Flip card](https://i.gyazo.com/f21a3f54a75be9ce93690ff60493fcfb.gif)
+
+[Flip card](components/flip-card/README.md)
 
 ![Doughnut Progress Bar](http://i.imgur.com/7Zmc0nI.gif)
 

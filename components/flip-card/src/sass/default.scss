@@ -1,0 +1,31 @@
+.fc-box {
+  position: relative;
+  perspective: 1000px;
+
+  &__front {
+    transition: transform 0.6s ease-out;
+    backface-visibility: hidden;
+  }
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform: rotateY(-180deg);
+    backface-visibility: hidden;
+    transition: transform 0.6s ease-out;
+  }
+
+  &--flipped {
+
+    .fc-box__front {
+      transform: rotateY(180deg);
+    }
+
+    .fc-box__back {
+      transform: rotateY(0deg);
+    }
+  }
+}
