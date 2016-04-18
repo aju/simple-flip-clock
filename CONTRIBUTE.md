@@ -4,4 +4,4 @@
 - use the template: `/components/template`
 - testing: `npm test`
 - developing: `gulp watch`
-- building: `gulp build --prodcution-build`
+- building: `gulp build --production-build`
