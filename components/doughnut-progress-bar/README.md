@@ -2,7 +2,7 @@
 
 Canvas library for drawing an animated doughnut progress bar with conic gradient background.
 
-Based on [this research](https://github.com/kdzwinel/progress-bar-animation), uses (simplified) [conic gradient polyfill] by Lea Verou(https://leaverou.github.io/conic-gradient/).
+Based on [this research](https://github.com/kdzwinel/progress-bar-animation), uses (simplified) [conic gradient polyfill](https://leaverou.github.io/conic-gradient/) by Lea Verou.
 
 ## Basic usage
 
