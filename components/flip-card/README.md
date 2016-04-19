@@ -20,7 +20,8 @@ Put inside `fc-box__front` and `fc-box__back` container your custom content
 Sample usage
 
     <script>
-      var fc = new FlipCard({element: document.querySelector('.fc-box')});
+      var fc = new FlipCard(element: document.querySelector('.fc-box')});
+      fc.flip();
     </script>
 
 ![result](https://i.gyazo.com/f21a3f54a75be9ce93690ff60493fcfb.gif)
@@ -28,7 +29,6 @@ Sample usage
 Parameters:
 
     element: dom node with basic structure as specified above
-    buttonSelector: selector for buttons inside container that trigger flip (default: '.js-flip-card-button')
     
 Methods
         
