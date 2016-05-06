@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-$csWidth: 250px !default;
-$csHeight: 375px !default;
+$cdWidth: 250px !default;
+$cdHeight: 375px !default;
 
 .cd-card-container {
   position: relative;
 
-  width: $csWidth;
-  height: $csHeight;
+  width: $cdWidth;
+  height: $cdHeight;
 }
 
 .cd-card {
