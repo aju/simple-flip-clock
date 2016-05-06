@@ -16,6 +16,9 @@ Library with UI effects
 
 [Doughnut Progress Bar](components/doughnut-progress-bar/README.md)
 
+![Card Deck](http://i.imgur.com/fS2lItj.gif)
+[Card Deck](components/card-deck/README.md)
+
 ## License
 
 GPLv3
