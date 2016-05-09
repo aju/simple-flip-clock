@@ -158,12 +158,12 @@ class CardDeck {
     const rotation = Math.round(Math.random() * 4 - 2);
     let step = 1;
 
-    card.style.transition = `transform 200ms ease-in`;
+    card.style.transition = 'transform 200ms ease-in';
     card.style.transform = `translateX(${midStop}px) scale(0.9)`;
 
     card.addEventListener('transitionend', function animationStep() {
       if (step === 1) {
-        card.style.transition = `transform 300ms ease-out`;
+        card.style.transition = 'transform 300ms ease-out';
         card.style.transform = `translateX(0) scale(0.9) rotateZ(${rotation}deg)`;
         card.style.zIndex = 0;
       } else if (step === 2) {
