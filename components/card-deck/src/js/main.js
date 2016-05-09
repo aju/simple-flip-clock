@@ -18,10 +18,14 @@
 
 'use strict';
 
+function nodeListToArray(nodeList) {
+  return Array.prototype.slice.call(nodeList);
+}
+
 class CardDeck {
   constructor({element}) {
     this.root = element;
-    this.cards = Array.from(this.root.querySelectorAll('.cd-card'));
+    this.cards = nodeListToArray(this.root.querySelectorAll('.cd-card'));
 
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
@@ -156,29 +160,28 @@ class CardDeck {
   animateCardToTheEnd(card) {
     const midStop = this.screenX < 0 ? -this.targetBCR.width : this.targetBCR.width;
     const rotation = Math.round(Math.random() * 4 - 2);
+    let step = 1;
 
-    const player = card.animate([{
-      transform: `translateX(${this.screenX}px) scale(1) rotateZ(0)`,
-      zIndex: 1
-    }, {
-      transform: `translateX(${midStop}px) scale(0.9) rotateZ(0)`,
-      zIndex: 0
-    }, {
-      transform: `translateX(0) scale(0.9) rotateZ(${rotation}deg)`,
-      zIndex: 0
-    }], {
-      duration: 300,
-      easing: 'ease-out'
-    });
+    card.style.transition = `transform 200ms ease-in`;
+    card.style.transform = `translateX(${midStop}px) scale(0.9)`;
 
-    player.addEventListener('finish', () => {
-      const parent = card.parentNode;
+    card.addEventListener('transitionend', function animationStep() {
+      if (step === 1) {
+        card.style.transition = `transform 300ms ease-out`;
+        card.style.transform = `translateX(0) scale(0.9) rotateZ(${rotation}deg)`;
+        card.style.zIndex = 0;
+      } else if (step === 2) {
+        const parent = card.parentNode;
 
-      card.style.zIndex = 1;
-      card.style.transform = `rotateZ(${rotation}deg)`;
+        card.removeEventListener('transitionend', animationStep);
+        card.style.zIndex = 1;
+        card.style.transform = `rotateZ(${rotation}deg)`;
 
-      parent.removeChild(card);
-      parent.insertBefore(card, parent.firstChild);
+        parent.removeChild(card);
+        parent.insertBefore(card, parent.firstChild);
+      }
+
+      step++;
     });
   }
 
