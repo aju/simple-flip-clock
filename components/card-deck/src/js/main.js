@@ -18,14 +18,10 @@
 
 'use strict';
 
-function nodeListToArray(nodeList) {
-  return Array.prototype.slice.call(nodeList);
-}
-
 class CardDeck {
   constructor({element}) {
     this.root = element;
-    this.cards = nodeListToArray(this.root.querySelectorAll('.cd-card'));
+    this.cards = [...this.root.querySelectorAll('.cd-card')];
 
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
