@@ -10,11 +10,11 @@ Include `dist/js/main.min.js` on your page
 
 Include in your HTML
 
-  <div class="cs-card-container">
-    ...
-    <div class="cs-card">card #2</div>
-    <div class="cs-card">card #1</div>
-  </div>
+    <div class="cs-card-container">
+      ...
+      <div class="cs-card">card #2</div>
+      <div class="cs-card">card #1</div>
+    </div>
 
 Sample usage
 
