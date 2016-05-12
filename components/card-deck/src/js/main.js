@@ -18,6 +18,14 @@
 
 'use strict';
 
+// IE/Edge/OperaMini do not support Node.closest yet
+function closest(el, sel) {
+  do {
+    el = el.parentElement;
+  } while(el && (el.matches || el.matchesSelector)(sel));
+  return el;
+}
+
 class CardDeck {
   constructor({element}) {
     this.root = element;
@@ -66,11 +74,13 @@ class CardDeck {
       return;
     }
 
-    if (!evt.target.classList.contains('cd-card')) {
+    const target = closest(evt.target, '.cd-card');
+
+    if (!target) {
       return;
     }
 
-    this.target = evt.target;
+    this.target = target;
     this.targetBCR = this.target.getBoundingClientRect();
 
     this.startX = evt.pageX || evt.touches[0].pageX;
