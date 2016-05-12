@@ -20,8 +20,8 @@
 
 // IE/Edge/OperaMini do not support Node.closest yet
 function closest(el, sel) {
-  while(el = el.parentElement) {
-    if((el.matches && el.matches(sel)) || (el.matchesSelector && el.matchesSelector(sel))) {
+  while (el = el.parentElement) {
+    if ((el.matches && el.matches(sel)) || (el.matchesSelector && el.matchesSelector(sel))) {
       return el;
     }
   }
