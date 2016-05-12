@@ -10,16 +10,16 @@ Include `dist/js/main.min.js` on your page
 
 Include in your HTML
 
-    <div class="cs-card-container">
+    <div class="cd-card-container">
       ...
-      <div class="cs-card">card #2</div>
-      <div class="cs-card">card #1</div>
+      <div class="cd-card">card #2</div>
+      <div class="cd-card">card #1</div>
     </div>
 
 Sample usage
 
     <script>
-      const t = new CardDeck({element: document.querySelector('#element')});
+      const t = new CardDeck({element: document.querySelector('.cd-card-container')});
     </script>
 
 ![result](http://i.imgur.com/airbhXs.gif)
