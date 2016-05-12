@@ -20,10 +20,12 @@
 
 // IE/Edge/OperaMini do not support Node.closest yet
 function closest(el, sel) {
-  do {
-    el = el.parentElement;
-  } while(el && (el.matches || el.matchesSelector)(sel));
-  return el;
+  while(el = el.parentElement) {
+    if((el.matches && el.matches(sel)) || (el.matchesSelector && el.matchesSelector(sel))) {
+      return el;
+    }
+  }
+  return null;
 }
 
 class CardDeck {
