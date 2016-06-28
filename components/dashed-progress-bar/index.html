@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" id="viewport"
+        content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <title>Dashed Progress Bar</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+    }
+    section {
+      display: flex;
+      flex-wrap: wrap;
+
+      border-bottom: solid black 1px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+
+    section pre {
+      max-width: 100%;
+      margin-right: 10px;
+    }
+
+    .canvas-container {
+      align-self: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Dashed Progress Bar</h1>
+
+<h2>Options</h2>
+
+<p>Default speed, default radius, tiles growing.</p>
+<section>
+<pre><code class="lang-js">const config = {
+  canvas: document.querySelector('.progress-bar1'),
+  tiles: 30,//number of "dashes"
+  radius: 75,//size
+  gapSize: 0.25,//0-1 size of the gap between tiles
+  startWidth: 2,//animation - starting width of the tile
+  endWidth: 14,//animation - end width of the tile
+  animationStep: 0.015//animation - speed
+};
+
+const bar = new DashedProgressBar(config);
+
+bar.addTiles(randomAmount, '#6ed6a0');
+bar.addTiles(randomAmount2, '#ffbe32');
+bar.animate();
+</code></pre>
+  <div class="canvas-container"><canvas class="progress-bar1"></canvas></div>
+</section>
+
+<p>Faster, bigger radius, tiles shrinking.</p>
+<section>
+<pre><code class="lang-js">const config = {
+  canvas: document.querySelector('.progress-bar2'),
+  tiles: 30,
+  radius: 80,
+  gapSize: 0.25,
+  startWidth: 24,
+  endWidth: 8,
+  animationStep: 0.03
+};
+</code></pre>
+  <div class="canvas-container"><canvas class="progress-bar2"></canvas></div>
+</section>
+
+<p>Only 3 tiles, shrinking, fast.</p>
+<section>
+<pre><code class="lang-js">const config = {
+  canvas: document.querySelector('.progress-bar3'),
+  tiles: 3,
+  radius: 70,
+  gapSize: 0.4,
+  startWidth: 64,
+  endWidth: 12,
+  animationStep: 0.03
+};
+</code></pre>
+  <div class="canvas-container"><canvas class="progress-bar3"></canvas></div>
+</section>
+
+<p>100 tiles, growing, default speed.</p>
+<section>
+<pre><code class="lang-js">const config = {
+  canvas: document.querySelector('.progress-bar4'),
+  tiles: 100,
+  radius: 100,
+  gapSize: 0.2,
+  startWidth: 2,
+  endWidth: 20,
+  animationStep: 0.015
+};
+</code></pre>
+  <div class="canvas-container"><canvas class="progress-bar4"></canvas></div>
+</section>
+
+<h2>API</h2>
+
+<h3>addTiles(amount, color)</h3>
+How many tiles of given color should appear. Note: order of `addTiles` calls determines order of tiles.
+
+<h3>animate(callback)</h3>
+Draw the progress bar and call `callback` when animation finishes.
+
+<a href="https://github.com/brainly/ui-components"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+<script src="dist/js/main.min.js"></script>
+<script>
+  var d1 = new DashedProgressBar({
+    canvas: document.querySelector('.progress-bar1'),
+    tiles: 30,
+    radius: 50,
+    gapSize: 0.25,
+    startWidth: 2,
+    endWidth: 14,
+    animationStep: 0.015
+  });
+
+  var d2 = new DashedProgressBar({
+    canvas: document.querySelector('.progress-bar2'),
+    tiles: 30,
+    radius: 80,
+    gapSize: 0.25,
+    startWidth: 24,
+    endWidth: 8,
+    animationStep: 0.03
+  });
+
+  var d3 = new DashedProgressBar({
+    canvas: document.querySelector('.progress-bar3'),
+    tiles: 3,
+    radius: 70,
+    gapSize: 0.4,
+    startWidth: 64,
+    endWidth: 12,
+    animationStep: 0.03
+  });
+
+  var d4 = new DashedProgressBar({
+    canvas: document.querySelector('.progress-bar4'),
+    tiles: 100,
+    radius: 100,
+    gapSize: 0.2,
+    startWidth: 2,
+    endWidth: 20,
+    animationStep: 0.015
+  });
+
+  function change(pbar) {
+    pbar.tileColors = [];
+
+    var tiles1 = Math.round(pbar.tiles * Math.random());
+    var tiles2 = Math.round((pbar.tiles - tiles1) * Math.random());
+    pbar.addTiles(tiles1, '#6ed6a0');
+    pbar.addTiles(tiles2, '#ffbe32');
+
+    pbar.animate(function () {
+      setTimeout(change.bind(null, pbar), 1000);
+    });
+  }
+
+  change(d1);
+  change(d2);
+  change(d3);
+  change(d4);
+
+  hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
