@@ -3,12 +3,13 @@ import easeSin from './ease-sin';
 
 class DashedProgressBar {
   constructor({canvas, radius = 75, tiles = 30, gapSize = 0.25, animatedTiles = 10, startWidth = 2, endWidth = 12,
-    animationStep = 0.015, backgroundColor = '#FFF'}) {
+    animationStep = 0.015, backgroundColor = '#fff', inactiveTileColor = '#dde1e4'}) {
     // basic params
     this.radius = radius;
     this.tiles = tiles;
     this.gapSize = gapSize;//0-1
     this.backgroundColor = backgroundColor;
+    this.inactiveTileColor = inactiveTileColor;
 
     // animation params
     this.animatedTiles = animatedTiles;
@@ -51,15 +52,15 @@ class DashedProgressBar {
   animate(callback) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    let t = 0;
+    let time = 0;// 0 -> 1
 
     //draw gray tiles
     for (let i = 0; i < this.tiles; i++) {
-      this._drawTile(i, '#dde1e4', this.endWidth - 1);
+      this._drawTile(i, this.inactiveTileColor, this.endWidth - 1);
     }
 
     const draw = () => {
-      const currentIdx = Math.floor(easeInOutQuad(t) * (this.tileColors.length + this.animatedTiles));
+      const currentIdx = Math.floor(easeInOutQuad(time) * (this.tileColors.length + this.animatedTiles));
 
       for (let idx = currentIdx - this.animatedTiles; idx < currentIdx; idx++) {
         if (!this.tileColors[idx]) {
@@ -74,14 +75,14 @@ class DashedProgressBar {
         this._drawTile(idx, this.tileColors[idx], width);
       }
 
-      if (t > 1) {
+      if (time > 1) {
         if (typeof callback === 'function') {
           callback();
         }
         return;
       }
 
-      t += this.animationStep;
+      time += this.animationStep;
 
       requestAnimationFrame(draw);
     };
