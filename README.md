@@ -24,6 +24,10 @@ Library with UI effects
 
 ![Card Deck](http://i.imgur.com/fS2lItj.gif)
 
+![Card Deck](http://i.imgur.com/fS2lItj.gif)
+
+[Card Deck](components/card-deck/README.md)
+
 ## License
 
 GPLv3
