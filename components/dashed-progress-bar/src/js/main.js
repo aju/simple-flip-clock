@@ -33,6 +33,10 @@ class DashedProgressBar {
     this.tileColors = [];
   }
 
+  clearTiles() {
+    this.tileColors = [];
+  }
+
   addTiles(amount, color) {
     for (let i = 0; i < amount; i++) {
       this.tileColors.push(color);
@@ -56,15 +60,22 @@ class DashedProgressBar {
   }
 
   animate(callback) {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //draw background
+    const rMax = this.radius + this.margin;
+
+    this.ctx.beginPath();
+    this.ctx.arc(rMax, rMax, rMax + 1, 0, 2 * Math.PI, false);
+    this.ctx.fillStyle = this.backgroundColor;
+    this.ctx.fill();
 
     let time = 0;// 0 -> 1
 
-    //draw gray tiles
+    //draw inactive tiles
     for (let i = 0; i < this.tiles; i++) {
       this._drawTile(i, this.inactiveTileColor, this.endWidth - 1);
     }
 
+    //animate active tiles
     const draw = () => {
       const currentIdx = Math.floor(easeInOutQuad(time) * (this.tileColors.length + this.animatedTiles));
 
