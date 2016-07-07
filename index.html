@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Brainly Front-End" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <meta name="theme-color" content="#FAFAFA">
+  <title>Library of UI components</title>
+  <link rel="stylesheet" href="https://styleguide.brainly.com/44.0.6/style-guide.css"/>
+
+  <link rel="stylesheet" href="components/card-deck/dist/css/default.css">
+  <script src="components/card-deck/dist/js/main.min.js"></script>
+
+  <script src="components/dashed-progress-bar/dist/js/main.min.js"></script>
+
+  <script src="components/doughnut-progress-bar/dist/js/main.min.js"></script>
+
+  <link rel="stylesheet" href="components/flip-card/dist/css/default.css">
+  <script src="components/flip-card/dist/js/main.min.js"></script>
+
+  <link rel="stylesheet" href="components/simple-flip-clock/dist/css/default.css">
+  <script src="components/simple-flip-clock/dist/js/main.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 20px;
+    }
+
+    main {
+      margin: 0 auto;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <h1 class="sg-header-primary">Library of UI components</h1>
+  <p class="sg-text">Small library of various UI components that we are, or were, using at <a class="sg-link" href="http://brainly.com">Brainly</a>.</p>
+  <p class="sg-text">All components have no external dependencies, use bare-bones web platform, are written in ES6 and, most importantly, have great performance. Note that we <span class="sg-text sg-text--emphasised">do not</span> support anything older than IE11.</p>
+
+  <div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
+
+  <h2>Flip clock</h2>
+  <p><a class="sg-link" href="https://github.com/brainly/ui-components/blob/master/components/simple-flip-clock/README.md">Docs</a></p>
+
+  <div style="display: flex; flex-direction: row; align-items: center; align-content: center">
+    <div class="sfc-number">
+      <ol class="sfc-number__up">
+        <li class="sfc-number__element sfc-number__element--active">
+          <div class="sfc-number__digit">
+            <div class="sfc-number__digit-full">0</div>
+          </div>
+        </li>
+      </ol>
+      <ol class="sfc-number__down">
+        <li class="sfc-number__element sfc-number__element--active">
+          <div class="sfc-number__digit">
+            <div class="sfc-number__digit-full">0</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <button class="sg-button-secondary sg-button-secondary--small" style="margin-left: 2rem" id="trigger">
+      <div class="sg-button-primary__hole">
+        Bump!
+      </div>
+    </button>
+  </div>
+
+  <script>
+    var sfc = new SimpleFlipClock({element: document.querySelector('.sfc-number'), currentNumber: 0});
+    document.getElementById('trigger').addEventListener('click', function () {
+      sfc.increment();
+    })
+  </script>
+
+  <!-- FLIP CLOCK END -->
+
+  <div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
+
+  <h2>Flip card</h2>
+  <p><a class="sg-link" href="https://github.com/brainly/ui-components/blob/master/components/flip-card/README.md">Docs</a></p>
+
+  <style>
+    .wrapper {
+      width: 200px;height: 200px;
+    }
+    .fc-box {
+      width: 100%;
+      height: 100%;
+    }
+    .fc-box__front,
+    .fc-box__back {
+      width: 100%;
+      height: 100%;
+    }
+
+  </style>
+  <div class="wrapper">
+    <div class="fc-box">
+      <div class="fc-box__front sg-box sg-box--no-border sg-box--lavender">
+        <div class="sg-box__hole">
+          <p class="sg-text sg-text--light">Front-End is great!</p>
+          <br />
+          <button class="sg-button-secondary sg-button-secondary--inverse sg-button-secondary--small js-flip-card-button">Flip me!</button>
+        </div>
+      </div>
+      <div class="fc-box__back sg-box sg-box--no-border sg-box--mint-secondary">
+        <div class="sg-box__hole">
+          <p class="sg-text sg-text--light">Back-End is OKish.</p>
+          <br />
+          <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt-inverse js-flip-card-button">Flip me back!</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    var fc = new FlipCard({element: document.querySelector('.fc-box')});
+    var buttons = Array.prototype.slice.call(document.getElementsByClassName('js-flip-card-button'));
+
+    buttons.forEach(function(butt) {
+      butt.addEventListener('click', fc.flip.bind(fc));
+    });
+  </script>
+
+  <!-- FLIP CARD END -->
+
+  <div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
+
+  <h2>Doughnut Progress Bar</h2>
+  <p><a class="sg-link" href="https://brainly.github.io/ui-components/components/doughnut-progress-bar/">Docs</a></p>
+
+  <div class="canvas-container"><canvas class="progress-bar1"></canvas></div>
+
+  <script>
+    var d1 = new DoughnutProgressBar({
+      element: document.querySelector('.progress-bar1'),
+      innerR: 60,
+      outerR: 70,
+      colorStart: '#6ed6a0',
+      colorEnd: '#5bb8ff',
+      percentage: 10,
+      duration: 300
+    });
+
+    function changePB(doughnut) {
+      doughnut.setPercentage(Math.abs(Math.random() * 100), changePB.bind(null, doughnut));
+    }
+
+    changePB(d1);
+  </script>
+
+  <!-- DOUGHNUT PROGRESS BAR END -->
+
+  <div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
+
+  <h2>Dashed Progress Bar</h2>
+  <p><a class="sg-link" href="https://brainly.github.io/ui-components/components/dashed-progress-bar/">Docs</a></p>
+
+  <div class="canvas-container"><canvas class="progress-bar2"></canvas></div>
+
+  <script>
+    var d2 = new DashedProgressBar({
+      canvas: document.querySelector('.progress-bar2'),
+      tiles: 30,
+      radius: 50,
+      gapSize: 0.25,
+      startWidth: 2,
+      endWidth: 14,
+      animationStep: 0.015
+    });
+
+    function changePB2(pbar) {
+      pbar.tileColors = [];
+
+      var tiles1 = Math.round(pbar.tiles * Math.random());
+      var tiles2 = Math.round((pbar.tiles - tiles1) * Math.random());
+      pbar.addTiles(tiles1, '#6ed6a0');
+      pbar.addTiles(tiles2, '#ffbe32');
+
+      pbar.animate(function () {
+        setTimeout(changePB2.bind(null, pbar), 1000);
+      });
+    }
+
+    changePB2(d2);
+  </script>
+
+  <!-- DASHED PROGRESS BAR END -->
+
+  <div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
+
+  <h2>Card Deck</h2>
+  <p><a class="sg-link" href="https://github.com/brainly/ui-components/blob/master/components/card-deck/README.md">Docs</a></p>
+
+  <div class="cd-card-container">
+    <div class="cd-card sg-box"><span class="sg-text">I'm last</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">one more</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">you are almost done</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">out of seven</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">I'm third</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">Oh hi!</span></div>
+    <div class="cd-card sg-box"><span class="sg-text">Swipe me</span></div>
+  </div>
+
+  <style>
+    .cd-card-container {
+      margin: 20px auto;
+    }
+
+    .cd-card {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    const cs = new CardDeck({element: document.querySelector('.cd-card-container')});
+  </script>
+
+  <!-- CARD DECK END -->
+</main>
+
+  <a href="https://github.com/brainly/ui-components/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+</body>
+</html>
