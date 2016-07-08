@@ -1,28 +1,17 @@
-# UI effects
+# Library of UI components
 
-Library with UI effects
+Small library of various UI components that we are, or were, using at Brainly.
+All components have no external dependencies, use bare-bones web platform, are written in ES6 and, most importantly, have great performance. Note that we do not support anything older than IE11.
 
-## Components
+For demos, see the [project page](https://brainly.github.io/ui-components).
 
-### [Simple flip clock](components/simple-flip-clock/README.md)
+Available components:
 
-![Simple flip clock](https://i.gyazo.com/8925a6b8f2d4d82ee9b4307a25e48017.gif)
-
-### [Flip card](components/flip-card/README.md)
-
-![Flip card](https://i.gyazo.com/f21a3f54a75be9ce93690ff60493fcfb.gif)
-
-### [Doughnut Progress Bar](components/doughnut-progress-bar/README.md)
-
-![Doughnut Progress Bar](http://i.imgur.com/7Zmc0nI.gif)
-
-### [Dashed Progress Bar](components/dashed-progress-bar/README.md)
-
-![Dashed Progress Bar](http://i.imgur.com/EgpQFSU.gif)
-
-### [Card Deck](components/card-deck/README.md)
-
-![Card Deck](http://i.imgur.com/fS2lItj.gif)
+- [Simple flip clock](components/simple-flip-clock/README.md)
+- [Flip card](components/flip-card/README.md)
+- [Doughnut Progress Bar](components/doughnut-progress-bar/README.md)
+- [Dashed Progress Bar](components/dashed-progress-bar/README.md)
+- [Card Deck](components/card-deck/README.md)
 
 ## License
 
