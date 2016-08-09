@@ -34,10 +34,10 @@ class CardDeck {
     this.root = element;
     this.cards = [...this.root.querySelectorAll('.cd-card')];
 
-    this.onStart = this.onStart.bind(this);
-    this.onMove = this.onMove.bind(this);
-    this.onEnd = this.onEnd.bind(this);
-    this.update = this.update.bind(this);
+    this._onStart = this._onStart.bind(this);
+    this._onMove = this._onMove.bind(this);
+    this._onEnd = this._onEnd.bind(this);
+    this._update = this._update.bind(this);
     this.targetBCR = null;
     this.target = null;
     this.startX = 0;
@@ -46,11 +46,11 @@ class CardDeck {
     this.targetX = 0;
     this.draggingCard = false;
 
-    this.addEventListeners();
+    this._addEventListeners();
 
     this.scatterCards();
 
-    requestAnimationFrame(this.update);
+    requestAnimationFrame(this._update);
   }
 
   scatterCards() {
@@ -61,18 +61,18 @@ class CardDeck {
     });
   }
 
-  addEventListeners() {
-    this.root.addEventListener('touchstart', this.onStart);
-    this.root.addEventListener('touchmove', this.onMove);
-    this.root.addEventListener('touchend', this.onEnd);
-    this.root.addEventListener('touchcancel', this.onEnd);
+  _addEventListeners() {
+    this.root.addEventListener('touchstart', this._onStart);
+    this.root.addEventListener('touchmove', this._onMove);
+    this.root.addEventListener('touchend', this._onEnd);
+    this.root.addEventListener('touchcancel', this._onEnd);
 
-    this.root.addEventListener('mousedown', this.onStart);
-    this.root.addEventListener('mousemove', this.onMove);
-    this.root.addEventListener('mouseup', this.onEnd);
+    this.root.addEventListener('mousedown', this._onStart);
+    this.root.addEventListener('mousemove', this._onMove);
+    this.root.addEventListener('mouseup', this._onEnd);
   }
 
-  onStart(evt) {
+  _onStart(evt) {
     if (this.target) {
       return;
     }
@@ -95,7 +95,7 @@ class CardDeck {
     evt.preventDefault();
   }
 
-  onMove(evt) {
+  _onMove(evt) {
     if (!this.target) {
       return;
     }
@@ -107,7 +107,7 @@ class CardDeck {
     }
   }
 
-  onEnd() {
+  _onEnd() {
     if (!this.target) {
       return;
     }
@@ -122,9 +122,9 @@ class CardDeck {
     this.draggingCard = false;
   }
 
-  update() {
+  _update() {
 
-    requestAnimationFrame(this.update);
+    requestAnimationFrame(this._update);
 
     if (!this.target) {
       return;
@@ -157,15 +157,15 @@ class CardDeck {
       }
 
       // Slide card to the back of the deck
-      this.animateCardToTheEnd(this.target);
-      this.resetTarget();
+      this._animateCardToTheEnd(this.target);
+      this._resetTarget();
 
     } else if (isNearlyAtStart) {
-      this.resetTarget();
+      this._resetTarget();
     }
   }
 
-  animateCardToTheEnd(card) {
+  _animateCardToTheEnd(card) {
     const midStop = this.screenX < 0 ? -this.targetBCR.width : this.targetBCR.width;
     const rotation = Math.round(Math.random() * 4 - 2);
     let step = 1;
@@ -173,7 +173,11 @@ class CardDeck {
     card.style.transition = 'transform 200ms ease-in';
     card.style.transform = `translateX(${midStop}px) scale(0.9)`;
 
-    card.addEventListener('transitionend', function animationStep() {
+    card.addEventListener('transitionend', function animationStep(event) {
+      if (event.target !== card) {
+        return;
+      }
+
       if (step === 1) {
         card.style.transition = 'transform 300ms ease-out';
         card.style.transform = `translateX(0) scale(0.9) rotateZ(${rotation}deg)`;
@@ -193,7 +197,7 @@ class CardDeck {
     });
   }
 
-  resetTarget() {
+  _resetTarget() {
     if (!this.target) {
       return;
     }
