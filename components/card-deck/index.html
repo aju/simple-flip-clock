@@ -73,7 +73,7 @@ limitations under the License.
     var cs = new CardDeck({element: document.querySelector('.cd-card-container')});
 
     document.getElementById('js-next-card').addEventListener('click', function() {
-      if( Math.random() > 0.5 ) {
+      if (Math.random() > 0.5) {
         cs.swipeCardLeft();
       } else {
         cs.swipeCardRight()
