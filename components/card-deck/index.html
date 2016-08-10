@@ -26,10 +26,10 @@ limitations under the License.
       margin: 0;
       padding: 0;
       background: #FAFAFA;
-      font-family: Arial;
-      font-size: 30px;
       color: #333;
       overflow: hidden;
+      font-family: Arial, serif;
+      text-align: center;
     }
 
     * {
@@ -37,7 +37,7 @@ limitations under the License.
     }
 
     .cd-card-container {
-      margin: 20px auto;
+      margin: 30px auto;
     }
 
     .cd-card {
@@ -50,6 +50,7 @@ limitations under the License.
       justify-content: center;
       text-align: center;
       cursor: pointer;
+      font-size: 30px;
     }
   </style>
   <link rel="stylesheet" href="dist/css/default.css">
@@ -65,9 +66,22 @@ limitations under the License.
     <div class="cd-card">Swipe me</div>
   </div>
 
+  <p>API: <button id="js-next-card">Next card</button>, <button id="js-disable-dragging">Disable dragging</button>, <button id="js-enable-dragging">Enable dragging</button></p>
+
   <script src="dist/js/main.min.js"></script>
   <script>
-    const cs = new CardDeck({element: document.querySelector('.cd-card-container')});
+    var cs = new CardDeck({element: document.querySelector('.cd-card-container')});
+
+    document.getElementById('js-next-card').addEventListener('click', function() {
+      if (Math.random() > 0.5) {
+        cs.swipeCardLeft();
+      } else {
+        cs.swipeCardRight()
+      }
+    });
+
+    document.getElementById('js-disable-dragging').addEventListener('click', cs.disableDragging.bind(cs));
+    document.getElementById('js-enable-dragging').addEventListener('click', cs.enableDragging.bind(cs));
   </script>
 </body>
 </html>

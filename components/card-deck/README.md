@@ -28,4 +28,11 @@ Sample usage
 
     element: dom node with basic structure as specified above
 
+### Methods:
+
+    disableDragging() - disable possibility to drag cards using touch/mouse
+    enableDragging() - enable possibility to drag cards using touch/mouse
+    swipeCardLeft() - move top card to the bottom of the deck by swiping it to the left
+    swipeCardRight() - move top card to the bottom of the deck by swiping it to the right
+
 [DEMO](https://brainly.github.io/ui-components/components/card-deck/)

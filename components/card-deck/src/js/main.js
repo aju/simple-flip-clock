@@ -29,6 +29,9 @@ function closest(el, sel) {
   return null;
 }
 
+const DIRECTION_LEFT = 'left';
+const DIRECTION_RIGHT = 'right';
+
 class CardDeck {
   constructor({element}) {
     this.root = element;
@@ -43,12 +46,9 @@ class CardDeck {
     this.startX = 0;
     this.currentX = 0;
     this.screenX = 0;
-    this.targetX = 0;
-    this.draggingCard = false;
-
-    this._addEventListeners();
 
     this.scatterCards();
+    this.enableDragging();
 
     requestAnimationFrame(this._update);
   }
@@ -61,7 +61,21 @@ class CardDeck {
     });
   }
 
-  _addEventListeners() {
+  swipeCardLeft() {
+    this._animateCardToTheEnd({
+      card: this._getTopCard(),
+      direction: DIRECTION_LEFT
+    });
+  }
+
+  swipeCardRight() {
+    this._animateCardToTheEnd({
+      card: this._getTopCard(),
+      direction: DIRECTION_RIGHT
+    });
+  }
+
+  enableDragging() {
     this.root.addEventListener('touchstart', this._onStart);
     this.root.addEventListener('touchmove', this._onMove);
     this.root.addEventListener('touchend', this._onEnd);
@@ -72,6 +86,24 @@ class CardDeck {
     this.root.addEventListener('mouseup', this._onEnd);
   }
 
+  disableDragging() {
+    // if card is currently being dragged, let it go
+    this._onEnd();
+
+    this.root.removeEventListener('touchstart', this._onStart);
+    this.root.removeEventListener('touchmove', this._onMove);
+    this.root.removeEventListener('touchend', this._onEnd);
+    this.root.removeEventListener('touchcancel', this._onEnd);
+
+    this.root.removeEventListener('mousedown', this._onStart);
+    this.root.removeEventListener('mousemove', this._onMove);
+    this.root.removeEventListener('mouseup', this._onEnd);
+  }
+
+  _getTopCard() {
+    return this.cards[this.cards.length - 1];
+  }
+
   _onStart(evt) {
     if (this.target) {
       return;
@@ -79,7 +111,8 @@ class CardDeck {
 
     const target = closest(evt.target, '.cd-card');
 
-    if (!target) {
+    // allow card to be dragged only if it exists and is on the top of the deck
+    if (!target || target !== this._getTopCard()) {
       return;
     }
 
@@ -89,7 +122,6 @@ class CardDeck {
     this.startX = evt.pageX || evt.touches[0].pageX;
     this.currentX = this.startX;
 
-    this.draggingCard = true;
     this.target.style.willChange = 'transform';
 
     evt.preventDefault();
@@ -112,14 +144,20 @@ class CardDeck {
       return;
     }
 
-    this.targetX = 0;
     const screenX = this.currentX - this.startX;
 
     if (Math.abs(screenX) > this.targetBCR.width * 0.35) {
-      this.targetX = screenX > 0 ? this.targetBCR.width : -this.targetBCR.width;
+      this._animateCardToTheEnd({
+        card: this.target,
+        direction: this.screenX < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT
+      });
+    } else {
+      this._animateCardBackInPlace({
+        card: this.target
+      });
     }
 
-    this.draggingCard = false;
+    this._resetTarget();
   }
 
   _update() {
@@ -130,67 +168,48 @@ class CardDeck {
       return;
     }
 
-    if (this.draggingCard) {
-      this.screenX = this.currentX - this.startX;
-    } else {
-      this.screenX += (this.targetX - this.screenX) / 4;
-    }
-
-    const normalizedDragDistance = Math.abs(this.screenX) / this.targetBCR.width;
-
+    this.screenX = this.currentX - this.startX;
+    this.target.style.transition = 'initial';
     this.target.style.transform = `translateX(${this.screenX}px)`;
-
-    // User has finished dragging.
-    if (this.draggingCard) {
-      return;
-    }
-
-    const isNearlyAtStart = Math.abs(this.screenX) < 0.1;
-    const isNearlyInvisible = 1 - Math.pow(normalizedDragDistance, 3) < 0.01;
-
-    // If the card is nearly gone.
-    if (isNearlyInvisible) {
-
-      // Bail if there's no target or it's not attached to a parent anymore.
-      if (!this.target || !this.target.parentNode) {
-        return;
-      }
-
-      // Slide card to the back of the deck
-      this._animateCardToTheEnd(this.target);
-      this._resetTarget();
-
-    } else if (isNearlyAtStart) {
-      this._resetTarget();
-    }
   }
 
-  _animateCardToTheEnd(card) {
-    const midStop = this.screenX < 0 ? -this.targetBCR.width : this.targetBCR.width;
+  _animateCardBackInPlace({card}) {
+    card.style.transition = 'transform 200ms ease-in-out';
+    card.style.transform = 'translateX(0)';
+  }
+
+  _animateCardToTheEnd({card, direction}) {
+    // update cards array to reflect actual card order
+    this.cards.splice(this.cards.indexOf(card), 1);
+    this.cards.unshift(card);
+
+    const cardWidth = card.getBoundingClientRect().width;
+    const midStop = direction === DIRECTION_LEFT ? -cardWidth : cardWidth;
     const rotation = Math.round(Math.random() * 4 - 2);
     let step = 1;
 
-    card.style.transition = 'transform 200ms ease-in';
-    card.style.transform = `translateX(${midStop}px) scale(0.9)`;
+    card.style.transition = 'transform 200ms ease-out';
+    card.style.transform = `translateX(${midStop}px)`;
 
     card.addEventListener('transitionend', function animationStep(event) {
       if (event.target !== card) {
         return;
       }
 
-      if (step === 1) {
+      if (step === 1) { // slide in
         card.style.transition = 'transform 300ms ease-out';
-        card.style.transform = `translateX(0) scale(0.9) rotateZ(${rotation}deg)`;
+        card.style.transform = 'translateX(0) scale(0.9)';
         card.style.zIndex = 0;
-      } else if (step === 2) {
+      } else if (step === 2) { // move back up
+        card.style.transition = 'transform 200ms ease-out';
+        card.style.transform = `rotateZ(${rotation}deg) scale(1)`;
+      } else if (step === 3) { // cleanup
         const parent = card.parentNode;
 
-        card.removeEventListener('transitionend', animationStep);
-        card.style.zIndex = 1;
-        card.style.transform = `rotateZ(${rotation}deg)`;
-
-        parent.removeChild(card);
         parent.insertBefore(card, parent.firstChild);
+
+        card.style.zIndex = 1;
+        card.removeEventListener('transitionend', animationStep);
       }
 
       step++;
