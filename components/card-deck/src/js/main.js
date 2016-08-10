@@ -87,6 +87,7 @@ class CardDeck {
   }
 
   disableDragging() {
+    // if card is currently being dragged, let it go
     this._onEnd();
 
     this.root.removeEventListener('touchstart', this._onStart);
@@ -178,6 +179,7 @@ class CardDeck {
   }
 
   _animateCardToTheEnd({card, direction}) {
+    // update cards array to reflect actual card order
     this.cards.splice(this.cards.indexOf(card), 1);
     this.cards.unshift(card);
 
