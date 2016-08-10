@@ -175,7 +175,7 @@ class CardDeck {
 
   _animateCardBackInPlace({card}) {
     card.style.transition = 'transform 200ms ease-in-out';
-    card.style.transform = 'translateX(0px)';
+    card.style.transform = 'translateX(0)';
   }
 
   _animateCardToTheEnd({card, direction}) {
