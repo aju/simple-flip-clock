@@ -174,8 +174,8 @@ class CardDeck {
   }
 
   _animateCardBackInPlace({card}) {
-    card.style.transition = `transform 200ms ease-in-out`;
-    card.style.transform = `translateX(0px)`;
+    card.style.transition = 'transform 200ms ease-in-out';
+    card.style.transform = 'translateX(0px)';
   }
 
   _animateCardToTheEnd({card, direction}) {
@@ -188,7 +188,7 @@ class CardDeck {
     const rotation = Math.round(Math.random() * 4 - 2);
     let step = 1;
 
-    card.style.transition = `transform 200ms ease-out`;
+    card.style.transition = 'transform 200ms ease-out';
     card.style.transform = `translateX(${midStop}px)`;
 
     card.addEventListener('transitionend', function animationStep(event) {
@@ -198,13 +198,14 @@ class CardDeck {
 
       if (step === 1) { // slide in
         card.style.transition = 'transform 300ms ease-out';
-        card.style.transform = `translateX(0) scale(0.9)`;
+        card.style.transform = 'translateX(0) scale(0.9)';
         card.style.zIndex = 0;
       } else if (step === 2) { // move back up
         card.style.transition = 'transform 200ms ease-out';
         card.style.transform = `rotateZ(${rotation}deg) scale(1)`;
       } else if (step === 3) { // cleanup
         const parent = card.parentNode;
+
         parent.insertBefore(card, parent.firstChild);
 
         card.style.zIndex = 1;
