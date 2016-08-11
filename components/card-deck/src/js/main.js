@@ -116,7 +116,9 @@ class CardDeck {
 
     this.target.style.willChange = 'transform';
 
-    evt.preventDefault();
+    if (target === evt.target) {
+      evt.preventDefault();
+    }
   }
 
   _onMove(evt) {
