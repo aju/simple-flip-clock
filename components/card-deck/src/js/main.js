@@ -177,6 +177,7 @@ class CardDeck {
 
     // send event
     const discardEvent = new CustomEvent('card-discarded', {bubbles: true, detail: {direction}});
+
     card.dispatchEvent(discardEvent);
 
     const cardWidth = card.getBoundingClientRect().width;
