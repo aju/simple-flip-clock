@@ -18,16 +18,8 @@
 
 'use strict';
 
-// IE/Edge/OperaMini do not support Node.closest yet
-function closest(el, sel) {
-  do {
-    if ((el.matches && el.matches(sel)) || (el.matchesSelector && el.matchesSelector(sel))) {
-      return el;
-    }
-    el = el.parentElement;
-  } while (el);
-  return null;
-}
+import closest from './vendor/closest-polyfil';
+import CustomEvent from './vendor/custom-event-polyfil';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
@@ -182,6 +174,11 @@ class CardDeck {
     // update cards array to reflect actual card order
     this.cards.splice(this.cards.indexOf(card), 1);
     this.cards.unshift(card);
+
+    // send event
+    const discardEvent = new CustomEvent('card-discarded', {bubbles: true, detail: {direction}});
+
+    card.dispatchEvent(discardEvent);
 
     const cardWidth = card.getBoundingClientRect().width;
     const midStop = direction === DIRECTION_LEFT ? -cardWidth : cardWidth;

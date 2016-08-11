@@ -70,7 +70,8 @@ limitations under the License.
 
   <script src="dist/js/main.min.js"></script>
   <script>
-    var cs = new CardDeck({element: document.querySelector('.cd-card-container')});
+    var container = document.querySelector('.cd-card-container');
+    var cs = new CardDeck({element: container});
 
     document.getElementById('js-next-card').addEventListener('click', function() {
       if (Math.random() > 0.5) {
@@ -82,6 +83,10 @@ limitations under the License.
 
     document.getElementById('js-disable-dragging').addEventListener('click', cs.disableDragging.bind(cs));
     document.getElementById('js-enable-dragging').addEventListener('click', cs.enableDragging.bind(cs));
+
+    container.addEventListener('card-discarded', function(e) {
+      console.log('card discarded', e);
+    });
   </script>
 </body>
 </html>

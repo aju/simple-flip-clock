@@ -26,7 +26,7 @@ Sample usage
 
 ### Parameters:
 
-    element: dom node with basic structure as specified above
+    element - dom node with basic structure as specified above
 
 ### Methods:
 
@@ -34,5 +34,9 @@ Sample usage
     enableDragging() - enable possibility to drag cards using touch/mouse
     swipeCardLeft() - move top card to the bottom of the deck by swiping it to the left
     swipeCardRight() - move top card to the bottom of the deck by swiping it to the right
+
+### Events:
+
+    card-discarded - fired when card is discarded. Contains information about the direction (event.detail.direction) and the card (event.target). Bubbles from the card node.
 
 [DEMO](https://brainly.github.io/ui-components/components/card-deck/)
