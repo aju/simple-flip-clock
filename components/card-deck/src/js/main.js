@@ -132,6 +132,8 @@ class CardDeck {
     } else {
       this.currentX = evt.touches[0].pageX;
     }
+
+    evt.preventDefault();
   }
 
   _onEnd() {
