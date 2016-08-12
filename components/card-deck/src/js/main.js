@@ -162,7 +162,6 @@ class CardDeck {
   }
 
   _update() {
-    console.log('raf!');
     this.rafId = requestAnimationFrame(this._update);
 
     if (!this.target) {
