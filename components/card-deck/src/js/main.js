@@ -33,6 +33,7 @@ class CardDeck {
     this._onMove = this._onMove.bind(this);
     this._onEnd = this._onEnd.bind(this);
     this._update = this._update.bind(this);
+    this.rafId = null;
     this.targetBCR = null;
     this.target = null;
     this.startX = 0;
@@ -41,8 +42,6 @@ class CardDeck {
 
     this.scatterCards();
     this.enableDragging();
-
-    requestAnimationFrame(this._update);
   }
 
   scatterCards() {
@@ -116,6 +115,8 @@ class CardDeck {
 
     this.target.style.willChange = 'transform';
 
+    this.rafId = requestAnimationFrame(this._update);
+
     if (target === evt.target) {
       evt.preventDefault();
     }
@@ -151,12 +152,16 @@ class CardDeck {
       });
     }
 
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
+
     this._resetTarget();
   }
 
   _update() {
-
-    requestAnimationFrame(this._update);
+    console.log('raf!');
+    this.rafId = requestAnimationFrame(this._update);
 
     if (!this.target) {
       return;
