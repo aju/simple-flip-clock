@@ -9,7 +9,10 @@
 <body>
 <style>
   .wrapper {
-    width: 200px;height: 200px;margin: 100px auto;
+    width: 200px;
+    height: 200px;
+    margin: 100px auto;
+    text-align: center;
   }
   .fc-box {
     width: 100%;
@@ -33,15 +36,28 @@
     </div>
   </div>
 
-  <br />
-  <br />
+  <hr/>
+
+  <div class="fc-box">
+    <div class="fc-box__front">
+      Front-End
+    </div>
+    <div class="fc-box__back">
+      Back-End
+    </div>
+  </div>
+
+  <hr/>
+
   <button id="toggle">Flip!</button>
 </div>
 <script>
-  var fc = new FlipCard({element: document.querySelector('.fc-box')});
+  var fc = new FlipCard({element: document.querySelectorAll('.fc-box')[0]});
+  var fcVertical = new FlipCard({element: document.querySelectorAll('.fc-box')[1], vertical: true});
 
   document.getElementById('toggle').addEventListener('click', function(){
     fc.flip();
+    fcVertical.flip();
   });
 </script>
 <a href="https://github.com/brainly/ui-components/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
