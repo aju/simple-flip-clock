@@ -27,6 +27,8 @@ Sample usage
 ### Parameters:
 
     element - dom node with basic structure as specified above
+    dragCallback - function called when card is dragged. Contains information about the deck, card being dragged and relative distance from the center of the deck.
+    discardCallback - function called when card is discarded. Contains information about the deck, card being discarded and direction (event.detail.direction).
 
 ### Methods:
 
@@ -37,6 +39,6 @@ Sample usage
 
 ### Events:
 
-    card-discarded - fired when card is discarded. Contains information about the direction (event.detail.direction) and the card (event.target). Bubbles from the card node.
+    card-discarded -
 
 [DEMO](https://brainly.github.io/ui-components/components/card-deck/)

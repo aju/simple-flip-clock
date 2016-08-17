@@ -19,16 +19,22 @@
 'use strict';
 
 import closest from './vendor/closest-polyfil';
-import CustomEvent from './vendor/custom-event-polyfil';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
 
 class CardDeck {
-  constructor({element}) {
+  /**
+   * @param {!Node} element root DOM element
+   * @param {?function(CardDeck, Node, string)} discardCallback function called when card is discarded
+   * @param {?function(CardDeck, Node, float)} dragCallback function called when card is dragged
+   */
+  constructor({element, discardCallback = null, dragCallback = null}) {
     this.root = element;
     this.cards = [...this.root.querySelectorAll('.cd-card')];
 
+    this._discardCallback = discardCallback;
+    this._dragCallback = dragCallback;
     this._onStart = this._onStart.bind(this);
     this._onMove = this._onMove.bind(this);
     this._onEnd = this._onEnd.bind(this);
@@ -54,14 +60,14 @@ class CardDeck {
 
   swipeCardLeft() {
     this._animateCardToTheEnd({
-      card: this._getTopCard(),
+      card: this.getTopCard(),
       direction: DIRECTION_LEFT
     });
   }
 
   swipeCardRight() {
     this._animateCardToTheEnd({
-      card: this._getTopCard(),
+      card: this.getTopCard(),
       direction: DIRECTION_RIGHT
     });
   }
@@ -91,7 +97,14 @@ class CardDeck {
     this.root.removeEventListener('mouseup', this._onEnd);
   }
 
-  _getTopCard() {
+  /**
+   * @returns {?Node} node representing top card
+   */
+  getTopCard() {
+    if (!this.cards.length) {
+      return null;
+    }
+
     return this.cards[this.cards.length - 1];
   }
 
@@ -103,7 +116,7 @@ class CardDeck {
     const target = closest(evt.target, '.cd-card');
 
     // allow card to be dragged only if it exists and is on the top of the deck
-    if (!target || target !== this._getTopCard()) {
+    if (!target || target !== this.getTopCard()) {
       return;
     }
 
@@ -168,9 +181,20 @@ class CardDeck {
       return;
     }
 
-    this.screenX = this.currentX - this.startX;
+    const newScreenX = this.currentX - this.startX;
+
+    if (this.screenX === newScreenX) {
+      return;
+    }
+
+    this.screenX = newScreenX;
     this.target.style.transition = 'initial';
     this.target.style.transform = `translateX(${this.screenX}px)`;
+
+    if (typeof this._dragCallback === 'function') {
+      const distance = this.screenX / this.targetBCR.width;
+      this._dragCallback(this, this.target, distance);
+    }
   }
 
   _animateCardBackInPlace({card}) {
@@ -183,10 +207,9 @@ class CardDeck {
     this.cards.splice(this.cards.indexOf(card), 1);
     this.cards.unshift(card);
 
-    // send event
-    const discardEvent = new CustomEvent('card-discarded', {bubbles: true, detail: {direction}});
-
-    card.dispatchEvent(discardEvent);
+    if (typeof this._discardCallback === 'function') {
+      this._discardCallback(this, card, direction);
+    }
 
     const cardWidth = card.getBoundingClientRect().width;
     const midStop = direction === DIRECTION_LEFT ? -cardWidth : cardWidth;
