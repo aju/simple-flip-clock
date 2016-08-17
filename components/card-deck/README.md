@@ -37,8 +37,4 @@ Sample usage
     swipeCardLeft() - move top card to the bottom of the deck by swiping it to the left
     swipeCardRight() - move top card to the bottom of the deck by swiping it to the right
 
-### Events:
-
-    card-discarded -
-
 [DEMO](https://brainly.github.io/ui-components/components/card-deck/)

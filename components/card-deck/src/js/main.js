@@ -98,7 +98,7 @@ class CardDeck {
   }
 
   /**
-   * @returns {?Node} node representing top card
+   * @returns {?Node} node representing the top card
    */
   getTopCard() {
     if (!this.cards.length) {
@@ -193,6 +193,7 @@ class CardDeck {
 
     if (typeof this._dragCallback === 'function') {
       const distance = this.screenX / this.targetBCR.width;
+
       this._dragCallback(this, this.target, distance);
     }
   }
