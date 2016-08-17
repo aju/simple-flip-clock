@@ -28,7 +28,8 @@ Sample usage
 
     element - dom node with basic structure as specified above
     dragCallback - function called when card is dragged. Contains information about the deck, card being dragged and relative distance from the center of the deck.
-    discardCallback - function called when card is discarded. Contains information about the deck, card being discarded and direction (event.detail.direction).
+    discardCallback - function called when card is discarded. Contains information about the deck, card being discarded and direction.
+    cancelCallback - function called when dragged card was released and will return to the top of the deck. Contains information about the deck and the card being released.
 
 ### Methods:
 

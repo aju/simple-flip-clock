@@ -71,7 +71,7 @@ limitations under the License.
   <script src="dist/js/main.min.js"></script>
   <script>
     var container = document.querySelector('.cd-card-container');
-    var cs = new CardDeck({element: container, discardCallback: onDiscard, dragCallback: onDrag});
+    var cs = new CardDeck({element: container, discardCallback: onDiscard, dragCallback: onDrag, cancelCallback: onCancel});
 
     document.getElementById('js-next-card').addEventListener('click', function() {
       if (Math.random() > 0.5) {
@@ -86,6 +86,10 @@ limitations under the License.
 
     function onDiscard(deck, card, direction) {
       console.log('card discarded, direction:', direction);
+    }
+
+    function onCancel(deck, card) {
+      console.log('card dragging cancelled');
     }
 
     function onDrag(deck, card, distance) {

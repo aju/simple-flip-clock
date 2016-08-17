@@ -26,14 +26,17 @@ const DIRECTION_RIGHT = 'right';
 class CardDeck {
   /**
    * @param {!Node} element root DOM element
-   * @param {?function(CardDeck, Node, string)} discardCallback function called when card is discarded
-   * @param {?function(CardDeck, Node, float)} dragCallback function called when card is dragged
+   * @param {?function(CardDeck, Node, string)} discardCallback called when card is discarded
+   * @param {?function(CardDeck, Node)} cancelCallback called when dragged card was released and will return
+   * to the top of the deck
+   * @param {?function(CardDeck, Node, float)} dragCallback called when card is dragged
    */
-  constructor({element, discardCallback = null, dragCallback = null}) {
+  constructor({element, discardCallback = null, cancelCallback = null, dragCallback = null}) {
     this.root = element;
     this.cards = [...this.root.querySelectorAll('.cd-card')];
 
     this._discardCallback = discardCallback;
+    this._cancelCallback = cancelCallback;
     this._dragCallback = dragCallback;
     this._onStart = this._onStart.bind(this);
     this._onMove = this._onMove.bind(this);
@@ -201,6 +204,10 @@ class CardDeck {
   _animateCardBackInPlace({card}) {
     card.style.transition = 'transform 200ms ease-in-out';
     card.style.transform = 'translateX(0)';
+
+    if (typeof this._cancelCallback === 'function') {
+      this._cancelCallback(this, card);
+    }
   }
 
   _animateCardToTheEnd({card, direction}) {
