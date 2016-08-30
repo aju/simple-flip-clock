@@ -26,6 +26,7 @@ Parameters:
 
     element: dom node with basic structure as specified above
     vertical: decide if animation should be vertical or horizontal (default)
+    duration: animation duration in milliseconds (600 by default)
     
 Methods
         

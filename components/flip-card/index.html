@@ -11,7 +11,7 @@
   .wrapper {
     width: 200px;
     height: 200px;
-    margin: 100px auto;
+    margin: 20px auto;
     text-align: center;
   }
   .fc-box {
@@ -35,9 +35,11 @@
       Back-End
     </div>
   </div>
+</div>
 
-  <hr/>
+<hr/>
 
+<div class="wrapper">
   <div class="fc-box">
     <div class="fc-box__front">
       Front-End
@@ -46,11 +48,12 @@
       Back-End
     </div>
   </div>
-
-  <hr/>
-
-  <button id="toggle">Flip!</button>
 </div>
+
+<hr/>
+
+<button id="toggle">Flip!</button>
+
 <script>
   var fc = new FlipCard({element: document.querySelectorAll('.fc-box')[0]});
   var fcVertical = new FlipCard({element: document.querySelectorAll('.fc-box')[1], vertical: true});
