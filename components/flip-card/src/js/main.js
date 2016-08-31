@@ -21,16 +21,15 @@ class FlipCard {
   }
 
   flip() {
-    this.front.style.animation = this.vertical ? 'fcBoxFlipHorizontallyFront' : 'fcBoxFlipVerticallyFront';
+    this.front.style.animation = this.vertical ? 'fcBoxFlipVerticallyFront' : 'fcBoxFlipHorizontallyFront';
     this.front.style.animationDuration = this.duration + 'ms';
     this.front.style.animationTimingFunction = 'ease-in-out';
     this.front.style.animationDirection = this.flipped ? 'reverse' : 'normal';
 
-    this.back.style.animation = this.vertical ? 'fcBoxFlipHorizontallyBack' : 'fcBoxFlipVerticallyBack';
+    this.back.style.animation = this.vertical ? 'fcBoxFlipVerticallyBack' : 'fcBoxFlipHorizontallyBack';
     this.back.style.animationDuration = this.duration + 'ms';
     this.back.style.animationTimingFunction = 'ease-in-out';
     this.back.style.animationDirection = this.flipped ? 'reverse' : 'normal';
-
   }
 
   _onAnimationEnd(e) {
