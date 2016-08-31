@@ -20,13 +20,13 @@ For each card create a `FlipCard` object and call `flip` method whenever you wan
         fc.flip();
     </script>
 
-![result](https://i.gyazo.com/f21a3f54a75be9ce93690ff60493fcfb.gif)
+![result](http://i.imgur.com/xZLaW0I.gif)
 
 Parameters:
 
     element: dom node with basic structure as specified above
     vertical: decide if animation should be vertical or horizontal (default)
-    duration: animation duration in milliseconds (600 by default)
+    duration: animation duration in milliseconds (800 by default)
     
 Methods
         

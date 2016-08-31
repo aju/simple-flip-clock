@@ -34,14 +34,15 @@ class FlipCard {
   }
 
   _onAnimationEnd(e) {
-    if(e.target !== this.front) {
+    if (e.target !== this.front) {
       return;
     }
 
     const flippedClass = this.vertical ? 'fc-box--flipped-vertically' : 'fc-box--flipped';
+
     this.flipped = !this.flipped;
 
-    if(this.flipped) {
+    if (this.flipped) {
       this.element.classList.add(flippedClass);
     } else {
       this.element.classList.remove(flippedClass);
