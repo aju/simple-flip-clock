@@ -1,22 +1,30 @@
 class Carousel {
-  constructor({element, slideChangeCallback = null}) {
+  constructor({
+    element,
+    getElementWidthCallback = null,
+    slideChangeCallback = null
+  }) {
     this.root = element;
     this.slider = this.root.querySelector('.buic-carousel__slider');
 
     this._slideChangeCallback = slideChangeCallback;
+    this._getElementWidthCallback = getElementWidthCallback;
 
     this.slidesLength = this.slider.children.length;
-    this.slider.style.width = `${this.slidesLength * 100}%`;
+
+    this._updateSliderWidth();
     this._updateSlideWidth();
 
     this.currentIndex = 1;
     this.lastSlideTranslateX = 0;
     this.currentSlideTranslateX = 0;
     this.isDragged = false;
+    this.isClicked = false;
 
     this._onStart = this._onStart.bind(this);
     this._onMove = this._onMove.bind(this);
     this._onEnd = this._onEnd.bind(this);
+    this._onClick = this._onClick.bind(this);
     this._update = this._update.bind(this);
 
     this.enableDragging();
@@ -56,6 +64,7 @@ class Carousel {
     this.root.addEventListener('touchend', this._onEnd);
     this.root.addEventListener('touchcancel', this._onEnd);
 
+    this.root.addEventListener('click', this._onClick);
     this.root.addEventListener('mousedown', this._onStart);
     this.root.addEventListener('mousemove', this._onMove);
     document.addEventListener('mouseup', this._onEnd);
@@ -76,19 +85,22 @@ class Carousel {
   }
 
   _onStart(event) {
-    this.startX = event.pageX || event.touches[0].pageX;
+    this.startX = event.touches ? event.touches[0].screenX : event.screenX;
+    this.startY = event.touches ? event.touches[0].screenY : event.screenY;
     this.currentX = this.startX;
+    this.currentY = this.startY;
     this.isDragged = true;
     this.rafId = requestAnimationFrame(this._update);
   }
 
   _onMove(event) {
-    if (event.pageX !== undefined) {
-      this.currentX = event.pageX;
-    } else {
-      this.currentX = event.touches[0].pageX;
+    this.currentX = event.touches ? event.touches[0].screenX : event.screenX;
+    this.currentY = event.touches ? event.touches[0].screenY : event.screenY;
+
+    // this allows scrolling vertically on mobile devices
+    if (Math.abs(this.currentX - this.startX) > Math.abs(this.currentY - this.startY)) {
+      event.preventDefault();
     }
-    event.preventDefault();
   }
 
   _onEnd() {
@@ -105,6 +117,11 @@ class Carousel {
 
     this.isDragged = false;
 
+    // if content is clickable, we should allow to make action when there was no change in slides
+    if (this.currentIndex !== index) {
+      this.isClicked = true;
+    }
+
     this.goTo(index);
 
     if (this.rafId) {
@@ -112,7 +129,19 @@ class Carousel {
     }
   }
 
+  _onClick(event) {
+    if (this.isClicked) {
+      this.isClicked = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   _update() {
+    if (!this.isDragged) {
+      return;
+    }
+
     this.rafId = requestAnimationFrame(this._update);
 
     const screenX = this.currentX - this.startX;
@@ -121,6 +150,21 @@ class Carousel {
 
     this.slider.style.transition = 'initial';
     this.slider.style.transform = `translateX(${this.currentSlideTranslateX}px)`;
+  }
+
+  _getElementWidth() {
+    if (this._getElementWidthCallback && typeof this._getElementWidthCallback === 'function') {
+      return this._getElementWidthCallback(this);
+    }
+
+    return false;
+  }
+
+  _updateSliderWidth() {
+    const elementWidth = this._getElementWidth();
+
+    // if has custom element width, use it, otherwise full-width
+    this.slider.style.width = elementWidth ? `${this.slidesLength * elementWidth}px` : `${this.slidesLength * 100}%`;
   }
 
   _updateSlideWidth() {
@@ -138,6 +182,7 @@ class Carousel {
   _onResize() {
     const slideWidthBefore = this.slideWidth;
 
+    this._updateSliderWidth();
     this._updateSlideWidth();
 
     if (slideWidthBefore !== this.slideWidth) {
