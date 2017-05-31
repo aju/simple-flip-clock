@@ -1,8 +1,5 @@
 class Carousel {
-  constructor({
-    element,
-    slideChangeCallback = null
-  }) {
+  constructor({element, slideChangeCallback = null}) {
     this.root = element;
     this.slider = this.root.querySelector('.buic-carousel__slider');
 
