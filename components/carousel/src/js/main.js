@@ -1,18 +1,15 @@
 class Carousel {
   constructor({
     element,
-    getElementWidthCallback = null,
     slideChangeCallback = null
   }) {
     this.root = element;
     this.slider = this.root.querySelector('.buic-carousel__slider');
 
     this._slideChangeCallback = slideChangeCallback;
-    this._getElementWidthCallback = getElementWidthCallback;
 
     this.slidesLength = this.slider.children.length;
 
-    this._updateSliderWidth();
     this._updateSlideWidth();
 
     this.currentIndex = 1;
@@ -152,21 +149,6 @@ class Carousel {
     this.slider.style.transform = `translateX(${this.currentSlideTranslateX}px)`;
   }
 
-  _getElementWidth() {
-    if (this._getElementWidthCallback && typeof this._getElementWidthCallback === 'function') {
-      return this._getElementWidthCallback(this);
-    }
-
-    return false;
-  }
-
-  _updateSliderWidth() {
-    const elementWidth = this._getElementWidth();
-
-    // if has custom element width, use it, otherwise full-width
-    this.slider.style.width = elementWidth ? `${this.slidesLength * elementWidth}px` : `${this.slidesLength * 100}%`;
-  }
-
   _updateSlideWidth() {
     this.slideWidth = this.slider.getBoundingClientRect().width / this.slidesLength;
   }
@@ -182,7 +164,6 @@ class Carousel {
   _onResize() {
     const slideWidthBefore = this.slideWidth;
 
-    this._updateSliderWidth();
     this._updateSlideWidth();
 
     if (slideWidthBefore !== this.slideWidth) {

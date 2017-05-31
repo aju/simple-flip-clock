@@ -14,15 +14,24 @@
 
     .buic-carousel {
       width: 400px;
-      max-width: 100%;
-      max-height: 100%;
+      height: 300px;
       margin: 30px auto;
       border: 3px solid black;
     }
 
-    .buic-carousel__slide {
-      background-color: palegoldenrod;
+    .carousel1 .buic-carousel__slide {
+      width: 400px;
       height: 300px;
+    }
+
+    .carousel2 .buic-carousel__slide {
+      height: 300px;
+      width: 150px;
+      margin: 0 15px;
+    }
+
+    .buic-carousel__slide:nth-child(1) {
+      background-color: palegoldenrod;
     }
 
     .buic-carousel__slide:nth-child(2) {
@@ -33,11 +42,19 @@
       background-color: navajowhite;
     }
 
+    .buic-carousel__slide:nth-child(4) {
+      background-color: rebeccapurple;
+    }
+
+    .buic-carousel__slide:nth-child(5) {
+      background-color: deeppink;
+    }
+
   </style>
 </head>
 <body>
 
-<div class="buic-carousel">
+<div class="buic-carousel carousel1">
   <div class="buic-carousel__viewport">
     <div class="buic-carousel__slider">
       <div class="buic-carousel__slide">
@@ -55,6 +72,30 @@
 
 <hr/>
 
+<div class="buic-carousel carousel2">
+  <div class="buic-carousel__viewport">
+    <div class="buic-carousel__slider">
+      <div class="buic-carousel__slide">
+        1st item
+      </div>
+      <div class="buic-carousel__slide">
+        2nd item
+      </div>
+      <div class="buic-carousel__slide">
+        3nd item
+      </div>
+      <div class="buic-carousel__slide">
+        4nd item
+      </div>
+      <div class="buic-carousel__slide">
+        Last item
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr/>
+
 <div>
   API:
   <button id="js-prev-slide">Previous slide</button>,
@@ -65,8 +106,14 @@
 </div>
 
 <script>
-  var carousel = new Carousel({element: document.querySelector('.buic-carousel'), slideChangeCallback: function(carousel, index) {
-    console.log('slideChangeCallback fired! Slide index equals', index);
+  // CAROUSEL 1
+  var carousel1 = new Carousel({element: document.querySelector('.carousel1'), slideChangeCallback: function(carousel, index) {
+    console.log('#1 slideChangeCallback fired! Slide index equals', index);
+  }});
+
+  // CAROUSEL 2
+  var carousel2 = new Carousel({element: document.querySelector('.carousel2'), slideChangeCallback: function(carousel, index) {
+    console.log('#2 slideChangeCallback fired! Slide index equals', index);
   }});
 
   var $prevButton = document.getElementById('js-prev-slide');
@@ -75,11 +122,26 @@
   var $disableDraggingButton = document.getElementById('js-disable-dragging');
   var $enableDraggingButton = document.getElementById('js-enable-dragging');
 
-  $prevButton.addEventListener('click', carousel.prev.bind(carousel));
-  $nextButton.addEventListener('click', carousel.next.bind(carousel));
-  $lastButton.addEventListener('click', carousel.goTo.bind(carousel, 3));
-  $disableDraggingButton.addEventListener('click', carousel.disableDragging.bind(carousel));
-  $enableDraggingButton.addEventListener('click', carousel.enableDragging.bind(carousel));
+  $prevButton.addEventListener('click', () => {
+    carousel1.prev();
+    carousel2.prev();
+  });
+  $nextButton.addEventListener('click', () => {
+    carousel1.next();
+    carousel2.next();
+  });
+  $lastButton.addEventListener('click', () => {
+    carousel1.goTo(carousel1.slidesLength);
+    carousel2.goTo(carousel2.slidesLength);
+  });
+  $disableDraggingButton.addEventListener('click', () => {
+    carousel1.disableDragging();
+    carousel2.disableDragging();
+  });
+  $enableDraggingButton.addEventListener('click', () => {
+    carousel1.enableDragging();
+    carousel2.enableDragging();
+  });
 
 </script>
 
