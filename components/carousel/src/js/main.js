@@ -14,6 +14,7 @@ class Carousel {
     this.currentSlideTranslateX = 0;
     this.isDragged = false;
     this.isClicked = false;
+    this.firstSwipe = false;
 
     this._onStart = this._onStart.bind(this);
     this._onMove = this._onMove.bind(this);
@@ -84,6 +85,8 @@ class Carousel {
     this.currentX = this.startX;
     this.currentY = this.startY;
     this.isDragged = true;
+    this.firstSwipe = true;
+
     this.rafId = requestAnimationFrame(this._update);
   }
 
@@ -91,9 +94,17 @@ class Carousel {
     this.currentX = event.touches ? event.touches[0].screenX : event.screenX;
     this.currentY = event.touches ? event.touches[0].screenY : event.screenY;
 
+    const touch = event.changedTouches;
+    const deltaX = this.currentX - this.startX;
+    const deltaY = this.currentY - this.startY;
+
     // this allows scrolling vertically on mobile devices
-    if (Math.abs(this.currentX - this.startX) > Math.abs(this.currentY - this.startY)) {
-      event.preventDefault();
+    if (touch && this.firstSwipe) {
+      if (Math.abs(deltaX) < Math.abs(deltaY)) {
+        this.isDragged = false;
+      }
+
+      this.firstSwipe = false;
     }
   }
 
