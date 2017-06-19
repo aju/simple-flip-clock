@@ -33,6 +33,7 @@ Initialize component:
 ### Parameters:
     element: DOM node with basic structure as specified above (.buic-carousel)
     slideChangeCallback: function called when slide has changed. Callback will be called with Carousel object as a first param and current slide index as a second param
+    edgeFriction: how far user needs to drag a slide in order to change it (`[0-1]`, default - `0.15`)
 
 ### Methods
         
