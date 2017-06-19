@@ -1,9 +1,10 @@
 class Carousel {
-  constructor({element, slideChangeCallback = null}) {
+  constructor({element, slideChangeCallback = null, edgeFriction = 0.15}) {
     this.root = element;
     this.slider = this.root.querySelector('.buic-carousel__slider');
 
     this._slideChangeCallback = slideChangeCallback;
+    this.edgeFriction = edgeFriction;
 
     this.slidesLength = this.slider.children.length;
 
@@ -115,7 +116,15 @@ class Carousel {
 
     this.slider.style.transition = '';
 
-    let index = Math.round(-this.currentSlideTranslateX / this.slideWidth) + 1;
+    const fullSlides = Math.floor(-this.currentSlideTranslateX / this.slideWidth);
+    const partialSlide = (-this.currentSlideTranslateX % this.slideWidth) / this.slideWidth;
+    const direction = Math.sign(this.startX - this.currentX);
+    let index = 1 + fullSlides;
+
+    if ((direction === 1 && partialSlide > this.edgeFriction) ||
+      (direction === -1 && partialSlide > 1 - this.edgeFriction)) {
+      index++;
+    }
 
     index = Math.max(1, index);
     index = Math.min(index, this.slidesLength);
