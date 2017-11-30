@@ -32,4 +32,5 @@ $cdHeight: 375px !default;
   height: 100%;
   -webkit-tap-highlight-color: transparent; // sass-lint:disable-line no-vendor-prefixes
   z-index: 1;
+  user-select: none;
 }
