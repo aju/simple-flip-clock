@@ -19,6 +19,7 @@
 'use strict';
 
 import closest from './vendor/closest-polyfil';
+import updateCSSPropertyString from './vendor/update-css-property';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
@@ -55,9 +56,9 @@ class CardDeck {
 
   scatterCards() {
     this.cards.forEach(card => {
-      const rotation = Math.round(Math.random() * 4 - 2);
-
-      card.style.transform = `rotateZ(${rotation}deg)`;
+      CardDeck._transform(card, {
+        'rotateZ': CardDeck._getRandomRotation()
+      });
     });
   }
 
@@ -192,7 +193,9 @@ class CardDeck {
 
     this.screenX = newScreenX;
     this.target.style.transition = 'initial';
-    this.target.style.transform = `translateX(${this.screenX}px)`;
+    CardDeck._transform(this.target, {
+      'translateX': `${this.screenX}px`
+    });
 
     if (typeof this._dragCallback === 'function') {
       const distance = this.screenX / this.targetBCR.width;
@@ -203,7 +206,9 @@ class CardDeck {
 
   _animateCardBackInPlace({card}) {
     card.style.transition = 'transform 200ms ease-in-out';
-    card.style.transform = 'translateX(0)';
+    CardDeck._transform(card, {
+      'translateX': '0'
+    });
 
     if (typeof this._cancelCallback === 'function') {
       this._cancelCallback(this, card);
@@ -221,11 +226,12 @@ class CardDeck {
 
     const cardWidth = card.getBoundingClientRect().width;
     const midStop = direction === DIRECTION_LEFT ? -cardWidth : cardWidth;
-    const rotation = Math.round(Math.random() * 4 - 2);
     let step = 1;
 
     card.style.transition = 'transform 200ms ease-out';
-    card.style.transform = `translateX(${midStop}px)`;
+    CardDeck._transform(card, {
+      'translateX': `${midStop}px`
+    });
 
     card.addEventListener('transitionend', function animationStep(event) {
       if (event.target !== card) {
@@ -234,11 +240,17 @@ class CardDeck {
 
       if (step === 1) { // slide in
         card.style.transition = 'transform 300ms ease-out';
-        card.style.transform = 'translateX(0) scale(0.9)';
+        CardDeck._transform(card, {
+          'translateX': '0',
+          'scale': '0.9'
+        });
         card.style.zIndex = 0;
       } else if (step === 2) { // move back up
         card.style.transition = 'transform 200ms ease-out';
-        card.style.transform = `rotateZ(${rotation}deg) scale(1)`;
+        CardDeck._transform(card, {
+          'rotateZ': CardDeck._getRandomRotation(),
+          'scale': '1'
+        });
       } else if (step === 3) { // cleanup
         const parent = card.parentNode;
 
@@ -259,6 +271,14 @@ class CardDeck {
 
     this.target.style.willChange = 'initial';
     this.target = null;
+  }
+
+  static _transform(element, values) {
+    return updateCSSPropertyString.call(this, element, 'transform', values);
+  }
+
+  static _getRandomRotation() {
+    return `${Math.round(Math.random() * 4 - 2)}deg`;
   }
 }
 

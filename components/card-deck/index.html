@@ -51,6 +51,7 @@ limitations under the License.
       cursor: pointer;
       font-size: 30px;
       overflow: auto;
+      user-select: none;
     }
   </style>
   <link rel="stylesheet" href="dist/css/default.css">
@@ -70,8 +71,8 @@ limitations under the License.
 
   <script src="dist/js/main.min.js"></script>
   <script>
-    var container = document.querySelector('.buic-cd-card-container');
-    var cs = new CardDeck({element: container, discardCallback: onDiscard, dragCallback: onDrag, cancelCallback: onCancel});
+    const container = document.querySelector('.buic-cd-card-container');
+    const cs = new CardDeck({element: container, discardCallback: onDiscard, dragCallback: onDrag, cancelCallback: onCancel});
 
     document.getElementById('js-next-card').addEventListener('click', function() {
       if (Math.random() > 0.5) {
