@@ -8,13 +8,19 @@
  */
 export default function updateCSSPropertyString(element, property, values) {
   const propertyValue = element.style[property];
-  const newPropertyValue = Object.getOwnPropertyNames(values).reduce((acc, rule) => {
-    const value = !values[rule] ? '' : `${rule}(${values[rule]})`;
+  let newPropertyValue = propertyValue;
 
-    return ~acc.indexOf(rule) ?
-      acc.replace(new RegExp(`${rule}\\([^\\)]+?\\)`), value) :
-      [acc, value].join(' ');
-  }, propertyValue);
+  for (const rule in values) {
+    if (values.hasOwnProperty(rule)) {
+      const value = values[rule];
+
+      if (value) {
+        newPropertyValue = -1 === newPropertyValue.indexOf(rule) ?
+          `${newPropertyValue} ${rule}(${value})` :
+          newPropertyValue.replace(new RegExp(`${rule}\\([^\\)]+?\\)`), `${rule}(${value})`);
+      }
+    }
+  }
 
   if (propertyValue !== newPropertyValue) {
     element.style[property] = newPropertyValue;

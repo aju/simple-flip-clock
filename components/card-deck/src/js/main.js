@@ -56,8 +56,8 @@ class CardDeck {
 
   scatterCards() {
     this.cards.forEach(card => {
-      this._transform(card, {
-        'rotateZ': this._getRandomRotation()
+      CardDeck._transform(card, {
+        'rotateZ': CardDeck._getRandomRotation()
       });
     });
   }
@@ -193,7 +193,7 @@ class CardDeck {
 
     this.screenX = newScreenX;
     this.target.style.transition = 'initial';
-    this._transform(this.target, {
+    CardDeck._transform(this.target, {
       'translateX': `${this.screenX}px`
     });
 
@@ -206,7 +206,7 @@ class CardDeck {
 
   _animateCardBackInPlace({card}) {
     card.style.transition = 'transform 200ms ease-in-out';
-    this._transform(card, {
+    CardDeck._transform(card, {
       'translateX': '0'
     });
 
@@ -216,8 +216,6 @@ class CardDeck {
   }
 
   _animateCardToTheEnd({card, direction}) {
-    const self = this;
-
     // update cards array to reflect actual card order
     this.cards.splice(this.cards.indexOf(card), 1);
     this.cards.unshift(card);
@@ -231,7 +229,7 @@ class CardDeck {
     let step = 1;
 
     card.style.transition = 'transform 200ms ease-out';
-    this._transform(card, {
+    CardDeck._transform(card, {
       'translateX': `${midStop}px`
     });
 
@@ -242,15 +240,15 @@ class CardDeck {
 
       if (step === 1) { // slide in
         card.style.transition = 'transform 300ms ease-out';
-        self._transform(card, {
+        CardDeck._transform(card, {
           'translateX': '0',
           'scale': '0.9'
         });
         card.style.zIndex = 0;
       } else if (step === 2) { // move back up
         card.style.transition = 'transform 200ms ease-out';
-        self._transform(card, {
-          'rotateZ': self._getRandomRotation(),
+        CardDeck._transform(card, {
+          'rotateZ': CardDeck._getRandomRotation(),
           'scale': '1'
         });
       } else if (step === 3) { // cleanup
@@ -275,11 +273,11 @@ class CardDeck {
     this.target = null;
   }
 
-  _transform(element, values) {
+  static _transform(element, values) {
     return updateCSSPropertyString.call(this, element, 'transform', values);
   }
 
-  _getRandomRotation() {
+  static _getRandomRotation() {
     return `${Math.round(Math.random() * 4 - 2)}deg`;
   }
 }
