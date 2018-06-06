@@ -42,6 +42,7 @@ class ElementHighlighter {
     placeholder.style.marginRight = elementStyles.marginRight;
     placeholder.style.marginTop = elementStyles.marginTop;
     placeholder.style.marginBottom = elementStyles.marginBottom;
+    placeholder.style.position = elementStyles.position;
 
     elementParent.replaceChild(placeholder, this.element);
 
