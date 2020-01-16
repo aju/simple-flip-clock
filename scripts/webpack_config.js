@@ -7,6 +7,18 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function babelEnv(params) {
+  return [
+    '@babel/preset-env',
+    Object.assign(
+      {
+        targets: '> 0.2%, not dead, not ie < 11',
+      },
+      params
+    ),
+  ];
+}
+
 module.exports = {
   getConfig(watch, plugins, config) {
     const glob = require('glob');
@@ -41,10 +53,7 @@ module.exports = {
             include: config.componentsPath,
             loader: 'babel-loader',
             query: {
-              presets: ['es2015'],
-              plugins: [
-                'add-module-exports'
-              ]
+              presets: [babelEnv({modules: 'auto'})],
             }
           }
         ])

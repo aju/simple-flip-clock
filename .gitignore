@@ -3,3 +3,5 @@ node_modules
 .editorconfig
 *.map
 /npm-debug.log
+commonjs/
+esm/

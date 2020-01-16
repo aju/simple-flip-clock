@@ -8,16 +8,19 @@ const babelEnv = modules => [
 
 module.exports = (api) => {
   api.cache(true);
+
   return {
-    presets: [babelEnv(false), '@babel/preset-react'],
-    plugins: [
-      '@babel/plugin-transform-flow-strip-types',
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-proposal-class-properties',
-    ],
+    presets: [babelEnv(false)],
     env: {
       test: {
         presets: [babelEnv('auto')],
+      },
+      commonjs: {
+        presets: [babelEnv('auto')],
+      },
+      esm: {
+        presets: [babelEnv(false)],
+        plugins: [['@babel/plugin-transform-runtime', {useESModules: true}]]
       }
     }
   }
