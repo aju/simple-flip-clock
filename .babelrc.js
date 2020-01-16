@@ -14,6 +14,13 @@ module.exports = (api) => {
     env: {
       test: {
         presets: [babelEnv('auto')],
+      },
+      commonjs: {
+        presets: [babelEnv('auto')],
+      },
+      esm: {
+        presets: [babelEnv(false)],
+        plugins: [['@babel/plugin-transform-runtime', {useESModules: true}]]
       }
     }
   }
