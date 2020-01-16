@@ -10,7 +10,7 @@
     "node": "^8.0.0"
   },
   "files": [
-    "src/",
+    "components/",
     "esm/",
     "commonjs/"
   ],
@@ -23,8 +23,8 @@
     "test": "npm run js-lint -s && npm run scss-lint -s",
     "postversion": "git push && git push --tags",
     "package-clean": "yarn rimraf esm/ commonjs/",
-    "package-esm": "BABEL_ENV=esm babel components --out-dir esm --only 'components/index.js' --only '**/src/js' --ignore '**/dist/**'",
-    "package-commonjs": "BABEL_ENV=commonjs babel components --out-dir commonjs --only 'components/index.js' --only '**/src/js' --ignore '**/dist/**'",
+    "package-esm": "BABEL_ENV=esm babel components --out-dir esm --only 'components/index.js','**/src' --ignore '**/src/dist/**'",
+    "package-commonjs": "BABEL_ENV=commonjs babel components --out-dir commonjs --only 'components/index.js','**/src' --ignore '**/src/dist/**'",
     "package-prepare": "yarn package-clean && concurrently --names 'commonjs,esm' 'yarn run package-commonjs' 'yarn run package-esm'",
     "prepublishOnly": "yarn package-prepare"
   },
