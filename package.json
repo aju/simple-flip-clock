@@ -6,6 +6,9 @@
   "license": "GPLv3",
   "module": "esm/index.js",
   "main": "commonjs/index.js",
+  "engines": {
+    "node": "^6.9.0"
+  },
   "files": [
     "src/",
     "esm/",
