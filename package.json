@@ -1,14 +1,11 @@
 {
   "name": "@brainly/ui-components",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "",
   "author": "Brainly Team",
   "license": "GPLv3",
   "module": "esm/index.js",
   "main": "commonjs/index.js",
-  "engines": {
-    "node": "^8.0.0"
-  },
   "files": [
     "components/",
     "esm/",
